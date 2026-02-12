@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Topic {
+  id          Int        @id @default(autoincrement())
+  name        String
+  slug        String     @unique
+  description String
+  icon        String     @default("📦")
+  order       Int
+  concepts    Concept[]
+  problems    Problem[]
+  progress    UserProgress[]
+}
+
+model Concept {
+  id              Int    @id @default(autoincrement())
+  topicId         Int
+  title           String
+  content         String
+  timeComplexity  String @default("")
+  spaceComplexity String @default("")
+  whenToUse       String @default("")
+  codeExample     String @default("")
+  order           Int    @default(0)
+  topic           Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
+}
+
+model Problem {
+  id          Int              @id @default(autoincrement())
+  topicId     Int
+  title       String
+  slug        String           @unique
+  difficulty  String           @default("Easy")
+  description String
+  examples    String           @default("[]")
+  hints       String           @default("[]")
+  solution    String           @default("")
+  explanation String           @default("")
+  pattern     String           @default("")
+  order       Int              @default(0)
+  topic       Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  attempts    ProblemAttempt[]
+}
+
+model UserProgress {
+  id          Int      @id @default(autoincrement())
+  topicId     Int
+  completed   Boolean  @default(false)
+  lastStudied DateTime @default(now())
+  topic       Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([topicId])
+}
+
+model ProblemAttempt {
+  id        Int      @id @default(autoincrement())
+  problemId Int
+  status    String   @default("attempted")
+  createdAt DateTime @default(now())
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([problemId])
+}

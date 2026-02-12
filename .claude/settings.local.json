@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --version:*)",
+      "Bash(npm --version:*)",
+      "Bash(npx --version:*)",
+      "Bash(pnpm:*)",
+      "Bash(/mnt/c/Users/Suraj/AppData/Roaming/npm/npm --version)",
+      "Bash(export PATH=\"/mnt/c/Program Files/nodejs:$PATH\")",
+      "Bash(tailscale version:*)",
+      "Bash(tailscale status:*)",
+      "Bash(systemctl status:*)",
+      "Bash(service ssh status:*)",
+      "Bash(dpkg:*)",
+      "Bash(sudo apt update:*)",
+      "Bash(sudo apt install:*)",
+      "Bash(npx create-next-app:*)",
+      "Bash(curl:*)",
+      "Bash(sudo -E bash -)",
+      "Bash(sudo apt-get install:*)",
+      "Bash(bash:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(gh auth status:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)"
+    ]
+  }
+}
