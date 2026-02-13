@@ -20,14 +20,16 @@ export default async function TopicsPage() {
 
   return (
     <div className="max-w-5xl">
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Topics</h1>
-        <p className="text-gray-400">
+      <div className="mb-10 sm:mb-14">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 tracking-tight">
+          Topics
+        </h1>
+        <p className="text-gray-600 text-sm">
           Work through these in order for the best learning path
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-stagger">
         {topics.map((topic) => (
           <TopicCard
             key={topic.id}

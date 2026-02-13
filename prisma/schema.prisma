@@ -28,8 +28,11 @@ model Concept {
   spaceComplexity String @default("")
   whenToUse       String @default("")
   codeExample     String @default("")
+  flashcardFront  String @default("")
+  flashcardBack   String @default("")
   order           Int    @default(0)
   topic           Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  notes           Note[]
 }
 
 model Problem {
@@ -47,6 +50,8 @@ model Problem {
   order       Int              @default(0)
   topic       Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
   attempts    ProblemAttempt[]
+  bookmarks   Bookmark[]
+  notes       Note[]
 }
 
 model UserProgress {
@@ -60,11 +65,71 @@ model UserProgress {
 }
 
 model ProblemAttempt {
-  id        Int      @id @default(autoincrement())
-  problemId Int
-  status    String   @default("attempted")
-  createdAt DateTime @default(now())
-  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  id             Int       @id @default(autoincrement())
+  problemId      Int
+  status         String    @default("attempted")
+  attemptCount   Int       @default(1)
+  nextReviewDate DateTime?
+  interval       Float     @default(0)
+  easeFactor     Float     @default(2.5)
+  repetitions    Int       @default(0)
+  timeSpentSecs  Int       @default(0)
+  lastAttemptAt  DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+  problem        Problem   @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@unique([problemId])
+}
+
+model DailyActivity {
+  id               Int    @id @default(autoincrement())
+  date             String @unique
+  problemsSolved   Int    @default(0)
+  problemsAttempted Int   @default(0)
+  quizzesTaken     Int    @default(0)
+  minutesStudied   Int    @default(0)
+}
+
+model UserSettings {
+  id             Int    @id @default(autoincrement())
+  dailyGoal      Int    @default(3)
+  currentStreak  Int    @default(0)
+  longestStreak  Int    @default(0)
+  lastActiveDate String @default("")
+}
+
+model StudyEvent {
+  id         Int      @id @default(autoincrement())
+  type       String
+  entityId   Int
+  entityName String
+  metadata   String   @default("{}")
+  createdAt  DateTime @default(now())
+}
+
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  problemId Int      @unique
+  createdAt DateTime @default(now())
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id        Int      @id @default(autoincrement())
+  problemId Int?     @unique
+  conceptId Int?     @unique
+  content   String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  problem   Problem? @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  concept   Concept? @relation(fields: [conceptId], references: [id], onDelete: Cascade)
+}
+
+model QuizAttempt {
+  id                 Int      @id @default(autoincrement())
+  score              Int
+  total              Int
+  percentage         Float
+  patternPerformance String   @default("{}")
+  createdAt          DateTime @default(now())
 }

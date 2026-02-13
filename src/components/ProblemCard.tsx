@@ -1,5 +1,6 @@
 import Link from "next/link";
 import DifficultyBadge from "./DifficultyBadge";
+import MasteryBadge from "./MasteryBadge";
 
 interface ProblemCardProps {
   id: number;
@@ -7,6 +8,9 @@ interface ProblemCardProps {
   difficulty: string;
   pattern: string;
   status?: string;
+  isBookmarked?: boolean;
+  hasNote?: boolean;
+  masteryLevel?: string;
 }
 
 export default function ProblemCard({
@@ -15,27 +19,30 @@ export default function ProblemCard({
   difficulty,
   pattern,
   status,
+  isBookmarked,
+  hasNote,
+  masteryLevel,
 }: ProblemCardProps) {
+  const level = masteryLevel || status;
+
   return (
     <Link href={`/practice/${id}`}>
-      <div className="flex items-center justify-between gap-3 p-3 sm:p-4 bg-gray-900 border border-gray-800 rounded-lg hover:border-gray-700 transition-colors group">
+      <div className="flex items-center justify-between gap-3 p-3 sm:p-4 border border-white/[0.06] hover:bg-white/[0.03] hover:border-white/[0.1] transition-all duration-150 group">
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-          <div
-            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs sm:text-sm ${
-              status === "solved"
-                ? "bg-emerald-900/50 text-emerald-400 border border-emerald-800"
-                : status === "attempted"
-                ? "bg-amber-900/50 text-amber-400 border border-amber-800"
-                : "bg-gray-800 text-gray-500 border border-gray-700"
-            }`}
-          >
-            {status === "solved" ? "✓" : status === "attempted" ? "~" : id}
-          </div>
+          <MasteryBadge level={level} />
           <div className="min-w-0">
-            <h4 className="text-sm font-medium text-gray-200 group-hover:text-indigo-400 transition-colors truncate">
-              {title}
-            </h4>
-            <p className="text-xs text-gray-500 mt-0.5 truncate">{pattern}</p>
+            <div className="flex items-center gap-1.5">
+              <h4 className="text-sm font-medium text-gray-300 group-hover:text-accent transition-colors truncate">
+                {title}
+              </h4>
+              {isBookmarked && (
+                <span className="text-amber-400 text-xs flex-shrink-0" title="Bookmarked">★</span>
+              )}
+              {hasNote && (
+                <span className="text-gray-500 text-xs flex-shrink-0" title="Has notes">✎</span>
+              )}
+            </div>
+            <p className="text-xs text-gray-600 mt-0.5 truncate font-mono">{pattern}</p>
           </div>
         </div>
         <DifficultyBadge difficulty={difficulty} />

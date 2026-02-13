@@ -183,100 +183,102 @@ const patterns = [
 export default function PatternsPage() {
   return (
     <div className="max-w-5xl">
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Pattern Guide</h1>
-        <p className="text-gray-400">
+      <div className="mb-10 sm:mb-14">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 tracking-tight">
+          Pattern Guide
+        </h1>
+        <p className="text-gray-600 text-sm">
           The key to solving problems is recognizing which pattern fits. Use
           these signals to identify the right approach.
         </p>
       </div>
 
       {/* Decision Tree Summary */}
-      <div className="card mb-8 bg-indigo-950/20 border-indigo-500/20">
-        <h2 className="text-lg font-semibold text-indigo-400 mb-4">
+      <div className="card-glow mb-10">
+        <h2 className="text-[15px] font-semibold text-accent mb-4">
           Quick Decision Guide
         </h2>
-        <div className="text-sm text-gray-300 space-y-2">
+        <div className="text-sm text-gray-400 space-y-2">
           <p>
-            <span className="text-gray-500">If the input is sorted →</span>{" "}
-            <span className="text-indigo-400">Binary Search</span> or{" "}
-            <span className="text-indigo-400">Two Pointers</span>
+            <span className="text-gray-600">If the input is sorted →</span>{" "}
+            <span className="text-accent">Binary Search</span> or{" "}
+            <span className="text-accent">Two Pointers</span>
           </p>
           <p>
-            <span className="text-gray-500">If asking for all permutations/combinations →</span>{" "}
-            <span className="text-indigo-400">Backtracking</span>
+            <span className="text-gray-600">If asking for all permutations/combinations →</span>{" "}
+            <span className="text-accent">Backtracking</span>
           </p>
           <p>
-            <span className="text-gray-500">If it involves a tree →</span>{" "}
-            <span className="text-indigo-400">DFS</span> or{" "}
-            <span className="text-indigo-400">BFS</span>
+            <span className="text-gray-600">If it involves a tree →</span>{" "}
+            <span className="text-accent">DFS</span> or{" "}
+            <span className="text-accent">BFS</span>
           </p>
           <p>
-            <span className="text-gray-500">If shortest path (unweighted) →</span>{" "}
-            <span className="text-indigo-400">Graph BFS</span>
+            <span className="text-gray-600">If shortest path (unweighted) →</span>{" "}
+            <span className="text-accent">Graph BFS</span>
           </p>
           <p>
-            <span className="text-gray-500">If optimal substructure + overlapping subproblems →</span>{" "}
-            <span className="text-indigo-400">Dynamic Programming</span>
+            <span className="text-gray-600">If optimal substructure + overlapping subproblems →</span>{" "}
+            <span className="text-accent">Dynamic Programming</span>
           </p>
           <p>
-            <span className="text-gray-500">If max/min subarray or substring →</span>{" "}
-            <span className="text-indigo-400">Sliding Window</span> or{" "}
-            <span className="text-indigo-400">Kadane&apos;s</span>
+            <span className="text-gray-600">If max/min subarray or substring →</span>{" "}
+            <span className="text-accent">Sliding Window</span> or{" "}
+            <span className="text-accent">Kadane&apos;s</span>
           </p>
           <p>
-            <span className="text-gray-500">If O(1) lookup needed →</span>{" "}
-            <span className="text-indigo-400">Hash Map</span>
+            <span className="text-gray-600">If O(1) lookup needed →</span>{" "}
+            <span className="text-accent">Hash Map</span>
           </p>
           <p>
-            <span className="text-gray-500">If matching/nesting →</span>{" "}
-            <span className="text-indigo-400">Stack</span>
+            <span className="text-gray-600">If matching/nesting →</span>{" "}
+            <span className="text-accent">Stack</span>
           </p>
           <p>
-            <span className="text-gray-500">If linked list cycle/middle →</span>{" "}
-            <span className="text-indigo-400">Fast & Slow Pointers</span>
+            <span className="text-gray-600">If linked list cycle/middle →</span>{" "}
+            <span className="text-accent">Fast & Slow Pointers</span>
           </p>
           <p>
-            <span className="text-gray-500">If task ordering with dependencies →</span>{" "}
-            <span className="text-indigo-400">Topological Sort</span>
+            <span className="text-gray-600">If task ordering with dependencies →</span>{" "}
+            <span className="text-accent">Topological Sort</span>
           </p>
           <p>
-            <span className="text-gray-500">If prefix-based string search →</span>{" "}
-            <span className="text-indigo-400">Trie</span>
+            <span className="text-gray-600">If prefix-based string search →</span>{" "}
+            <span className="text-accent">Trie</span>
           </p>
           <p>
-            <span className="text-gray-500">If top-K elements or merge-K lists →</span>{" "}
-            <span className="text-indigo-400">Heap</span>
+            <span className="text-gray-600">If top-K elements or merge-K lists →</span>{" "}
+            <span className="text-accent">Heap</span>
           </p>
           <p>
-            <span className="text-gray-500">If merging/overlapping time ranges →</span>{" "}
-            <span className="text-indigo-400">Merge Intervals</span>
+            <span className="text-gray-600">If merging/overlapping time ranges →</span>{" "}
+            <span className="text-accent">Merge Intervals</span>
           </p>
           <p>
-            <span className="text-gray-500">If grouping/connectivity in graph →</span>{" "}
-            <span className="text-indigo-400">Union Find</span>
+            <span className="text-gray-600">If grouping/connectivity in graph →</span>{" "}
+            <span className="text-accent">Union Find</span>
           </p>
           <p>
-            <span className="text-gray-500">If range sum queries →</span>{" "}
-            <span className="text-indigo-400">Prefix Sum</span>
+            <span className="text-gray-600">If range sum queries →</span>{" "}
+            <span className="text-accent">Prefix Sum</span>
           </p>
           <p>
-            <span className="text-gray-500">If finding unique among duplicates →</span>{" "}
-            <span className="text-indigo-400">Bit Manipulation (XOR)</span>
+            <span className="text-gray-600">If finding unique among duplicates →</span>{" "}
+            <span className="text-accent">Bit Manipulation (XOR)</span>
           </p>
           <p>
-            <span className="text-gray-500">If minimize-max or maximize-min →</span>{" "}
-            <span className="text-indigo-400">Binary Search on Answer</span>
+            <span className="text-gray-600">If minimize-max or maximize-min →</span>{" "}
+            <span className="text-accent">Binary Search on Answer</span>
           </p>
           <p>
-            <span className="text-gray-500">If locally optimal = globally optimal →</span>{" "}
-            <span className="text-indigo-400">Greedy</span>
+            <span className="text-gray-600">If locally optimal = globally optimal →</span>{" "}
+            <span className="text-accent">Greedy</span>
           </p>
         </div>
       </div>
 
       {/* Pattern Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-stagger">
         {patterns.map((p) => (
           <PatternCard key={p.pattern} {...p} />
         ))}

@@ -4,27 +4,142 @@
 
 @layer base {
   body {
-    @apply bg-gray-950 text-gray-100;
+    @apply bg-black text-gray-100 antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-none;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-white/20;
   }
 }
 
 @layer components {
   .card {
-    @apply bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-6;
+    @apply bg-white/[0.03] border border-white/[0.06] rounded-none p-5 sm:p-6;
   }
+
+  .card-hover {
+    @apply card transition-all duration-300 hover:bg-white/[0.05] hover:border-white/[0.1];
+  }
+
+  .card-glow {
+    @apply card border-accent/20 bg-accent/[0.04];
+  }
+
+  .glass {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06];
+  }
+
   .btn-primary {
-    @apply bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-4 py-2 rounded-lg transition-colors;
+    @apply bg-accent hover:bg-accent-light text-white text-sm font-medium px-5 py-2.5 rounded-[4px] transition-all duration-150 hover:shadow-[0_0_20px_rgba(0,153,255,0.3)] active:scale-[0.98];
   }
+
   .btn-secondary {
-    @apply bg-gray-800 hover:bg-gray-700 text-gray-200 font-medium px-4 py-2 rounded-lg transition-colors border border-gray-700;
+    @apply bg-white/[0.04] hover:bg-white/[0.08] text-gray-300 text-sm font-medium px-5 py-2.5 rounded-[4px] transition-all duration-150 border border-white/[0.08] hover:border-white/[0.15] active:scale-[0.98];
   }
+
+  .btn-success {
+    @apply bg-emerald-500 hover:bg-emerald-400 text-black text-sm font-semibold px-5 py-2.5 rounded-[4px] transition-all duration-150 hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] active:scale-[0.98];
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent;
+  }
+
   .badge-easy {
-    @apply bg-emerald-900/50 text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded-full border border-emerald-800;
+    @apply bg-emerald-500/10 text-emerald-400 text-xs font-medium px-2.5 py-0.5 rounded-[3px] border border-emerald-500/20;
   }
   .badge-medium {
-    @apply bg-amber-900/50 text-amber-400 text-xs font-medium px-2.5 py-0.5 rounded-full border border-amber-800;
+    @apply bg-amber-500/10 text-amber-400 text-xs font-medium px-2.5 py-0.5 rounded-[3px] border border-amber-500/20;
   }
   .badge-hard {
-    @apply bg-red-900/50 text-red-400 text-xs font-medium px-2.5 py-0.5 rounded-full border border-red-800;
+    @apply bg-red-500/10 text-red-400 text-xs font-medium px-2.5 py-0.5 rounded-[3px] border border-red-500/20;
+  }
+
+  .animate-stagger > * {
+    @apply opacity-0 animate-slideUp;
+  }
+  .animate-stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .animate-stagger > *:nth-child(2) { animation-delay: 50ms; }
+  .animate-stagger > *:nth-child(3) { animation-delay: 100ms; }
+  .animate-stagger > *:nth-child(4) { animation-delay: 150ms; }
+  .animate-stagger > *:nth-child(5) { animation-delay: 200ms; }
+  .animate-stagger > *:nth-child(6) { animation-delay: 250ms; }
+  .animate-stagger > *:nth-child(7) { animation-delay: 300ms; }
+  .animate-stagger > *:nth-child(8) { animation-delay: 350ms; }
+  .animate-stagger > *:nth-child(9) { animation-delay: 400ms; }
+  .animate-stagger > *:nth-child(10) { animation-delay: 450ms; }
+  .animate-stagger > *:nth-child(11) { animation-delay: 500ms; }
+  .animate-stagger > *:nth-child(12) { animation-delay: 550ms; }
+
+  .badge-mastered {
+    @apply bg-accent/10 text-accent border border-accent/20;
+    box-shadow: 0 0 8px rgba(0, 153, 255, 0.3);
+  }
+
+  .flip-card {
+    perspective: 1000px;
+    min-height: 200px;
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    min-height: 200px;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .flip-card-inner.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    min-height: 200px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+}
+
+@media print {
+  .sidebar, aside, header, nav {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .card {
+    border: 1px solid #ddd !important;
+    background: white !important;
+    break-inside: avoid;
+  }
+  .text-gray-300, .text-gray-400, .text-gray-500 {
+    color: #333 !important;
+  }
+  .text-accent {
+    color: #0066cc !important;
   }
 }

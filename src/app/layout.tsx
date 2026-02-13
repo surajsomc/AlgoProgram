@@ -3,7 +3,11 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "AlgoPrep - DSA Interview Prep",
@@ -17,9 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} font-sans`}>
+        {/* Subtle top gradient */}
+        <div className="fixed top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-accent/[0.02] via-transparent to-transparent pointer-events-none z-0" />
         <Sidebar />
-        <main className="pt-14 lg:pt-0 lg:ml-64 min-h-screen p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="relative z-10 pt-14 lg:pt-0 lg:ml-72 min-h-screen p-5 sm:p-8 lg:p-12">
+          {children}
+        </main>
       </body>
     </html>
   );

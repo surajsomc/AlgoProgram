@@ -1,5 +1,41 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { todayString } from "@/lib/sm2";
+
+export async function POST(request: NextRequest) {
+  const { score, total, patternPerformance } = await request.json();
+
+  const percentage = total > 0 ? Math.round((score / total) * 100) : 0;
+
+  const quizAttempt = await prisma.quizAttempt.create({
+    data: {
+      score,
+      total,
+      percentage,
+      patternPerformance: JSON.stringify(patternPerformance || {}),
+    },
+  });
+
+  // Update DailyActivity
+  const today = todayString();
+  await prisma.dailyActivity.upsert({
+    where: { date: today },
+    update: { quizzesTaken: { increment: 1 } },
+    create: { date: today, quizzesTaken: 1 },
+  });
+
+  // Log event
+  await prisma.studyEvent.create({
+    data: {
+      type: "quiz_completed",
+      entityId: quizAttempt.id,
+      entityName: `Quiz: ${score}/${total} (${percentage}%)`,
+      metadata: JSON.stringify({ score, total, percentage }),
+    },
+  });
+
+  return NextResponse.json(quizAttempt);
+}
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

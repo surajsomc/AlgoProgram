@@ -4,15 +4,18 @@ import Link from "next/link";
 import DifficultyBadge from "@/components/DifficultyBadge";
 import HintAccordion from "@/components/HintAccordion";
 import AlgorithmPicker from "@/components/AlgorithmPicker";
-import ProblemActions from "./ProblemActions";
-import SolutionClient from "./SolutionClient";
+import BookmarkButton from "@/components/BookmarkButton";
+import NoteEditor from "@/components/NoteEditor";
+import TimedPracticeWrapper from "./TimedPracticeWrapper";
 
 export const dynamic = "force-dynamic";
 
 export default async function ProblemPage({
   params,
+  searchParams,
 }: {
   params: { id: string };
+  searchParams: { timed?: string; minutes?: string };
 }) {
   const problemId = parseInt(params.id, 10);
   if (isNaN(problemId)) notFound();
@@ -22,6 +25,8 @@ export default async function ProblemPage({
     include: {
       topic: { select: { name: true, slug: true, icon: true } },
       attempts: { select: { status: true } },
+      bookmarks: { select: { id: true } },
+      notes: { select: { content: true } },
     },
   });
 
@@ -31,92 +36,65 @@ export default async function ProblemPage({
   const examples: { input: string; output: string; explanation?: string }[] =
     JSON.parse(problem.examples);
   const status = problem.attempts[0]?.status || null;
+  const isBookmarked = problem.bookmarks.length > 0;
+  const noteContent = problem.notes[0]?.content || "";
+
+  const isTimed = searchParams.timed === "true";
+  const timerMinutes = parseInt(searchParams.minutes || "30", 10);
 
   return (
     <div className="max-w-3xl">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6">
+      <div className="flex items-center gap-2 text-xs text-gray-600 mb-6 sm:mb-8 font-mono">
         <Link
           href={`/topics/${problem.topic.slug}`}
-          className="hover:text-gray-300 transition-colors"
+          className="hover:text-accent transition-colors"
         >
-          {problem.topic.icon} {problem.topic.name}
+          {problem.topic.name}
         </Link>
-        <span>/</span>
-        <span className="text-gray-400 truncate">{problem.title}</span>
+        <span className="text-gray-800">/</span>
+        <span className="text-gray-500 truncate">{problem.title}</span>
       </div>
 
       {/* Header */}
-      <div className="mb-4 sm:mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 tracking-tight">
           {problem.title}
         </h1>
         <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <DifficultyBadge difficulty={problem.difficulty} />
           {status && (
             <span
-              className={`text-xs px-2 py-0.5 rounded ${
-                status === "solved"
-                  ? "bg-emerald-900/50 text-emerald-400 border border-emerald-800"
-                  : "bg-amber-900/50 text-amber-400 border border-amber-800"
+              className={`text-xs px-2 py-0.5 ${
+                status === "mastered"
+                  ? "badge-mastered"
+                  : status === "solved"
+                  ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                  : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
               }`}
             >
-              {status === "solved" ? "Solved" : "Attempted"}
+              {status === "mastered" ? "Mastered" : status === "solved" ? "Solved" : "Attempted"}
             </span>
           )}
+          <BookmarkButton problemId={problem.id} initialBookmarked={isBookmarked} />
         </div>
       </div>
 
-      {/* Problem Description */}
-      <div className="card mb-6">
-        <div className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">
-          {problem.description}
-        </div>
-      </div>
+      <TimedPracticeWrapper
+        isTimed={isTimed}
+        minutes={timerMinutes}
+        problemId={problem.id}
+        solution={problem.solution}
+        explanation={problem.explanation}
+        currentStatus={status}
+        hints={hints}
+        examples={examples}
+        description={problem.description}
+        correctPattern={problem.pattern}
+      />
 
-      {/* Examples */}
-      {examples.length > 0 && (
-        <div className="space-y-3 mb-6">
-          <h3 className="text-sm font-semibold text-gray-300">Examples</h3>
-          {examples.map((ex, i) => (
-            <div
-              key={i}
-              className="bg-gray-900 border border-gray-800 rounded-lg p-4 text-sm"
-            >
-              <div className="mb-1">
-                <span className="text-gray-500">Input: </span>
-                <code className="text-indigo-400">{ex.input}</code>
-              </div>
-              <div className="mb-1">
-                <span className="text-gray-500">Output: </span>
-                <code className="text-emerald-400">{ex.output}</code>
-              </div>
-              {ex.explanation && (
-                <div className="text-gray-500 mt-1">
-                  <span>Explanation: </span>
-                  {ex.explanation}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Algorithm Picker - the core interaction */}
-      <AlgorithmPicker correctPattern={problem.pattern} />
-
-      {/* Hints */}
-      {hints.length > 0 && (
-        <div className="mb-6">
-          <HintAccordion hints={hints} />
-        </div>
-      )}
-
-      {/* Solution (collapsible) */}
-      <SolutionClient solution={problem.solution} explanation={problem.explanation} />
-
-      {/* Actions */}
-      <ProblemActions problemId={problem.id} currentStatus={status} />
+      {/* Notes */}
+      <NoteEditor problemId={problem.id} initialContent={noteContent} />
     </div>
   );
 }

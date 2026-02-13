@@ -64,11 +64,11 @@ export default function AlgorithmPicker({ correctPattern }: AlgorithmPickerProps
   const isCorrect = selected === correctPattern;
 
   return (
-    <div className="card mb-6 border-indigo-500/20 bg-indigo-950/10">
-      <h3 className="text-sm font-semibold text-indigo-400 mb-1">
+    <div className="card mb-6 border-accent/15 bg-accent/[0.02]">
+      <h3 className="text-sm font-medium text-accent mb-1">
         Which algorithm or data structure would you use?
       </h3>
-      <p className="text-xs text-gray-500 mb-4">
+      <p className="text-xs text-gray-600 mb-4">
         Read the problem above and pick the best approach
       </p>
 
@@ -78,19 +78,19 @@ export default function AlgorithmPicker({ correctPattern }: AlgorithmPickerProps
           const isAnswer = option === correctPattern;
 
           let cls =
-            "text-left w-full px-4 py-3 rounded-lg border text-sm font-medium transition-all ";
+            "text-left w-full px-4 py-3 border text-sm font-medium transition-all duration-150 ";
 
           if (!revealed) {
             cls +=
-              "border-gray-700 bg-gray-800/50 text-gray-300 hover:border-indigo-500 hover:bg-indigo-950/30 hover:text-white cursor-pointer";
+              "border-white/[0.08] bg-white/[0.02] text-gray-400 hover:border-accent/40 hover:bg-accent/[0.04] hover:text-white cursor-pointer";
           } else if (isAnswer) {
             cls +=
-              "border-emerald-600 bg-emerald-900/30 text-emerald-400";
+              "border-emerald-500/50 bg-emerald-500/10 text-emerald-400";
           } else if (isThis && !isAnswer) {
             cls +=
-              "border-red-600 bg-red-900/30 text-red-400";
+              "border-red-500/50 bg-red-500/10 text-red-400";
           } else {
-            cls += "border-gray-800 bg-gray-900/50 text-gray-600";
+            cls += "border-white/[0.04] bg-transparent text-gray-700";
           }
 
           return (
@@ -110,14 +110,14 @@ export default function AlgorithmPicker({ correctPattern }: AlgorithmPickerProps
 
       {revealed && (
         <div
-          className={`mt-4 p-3 rounded-lg text-sm ${
+          className={`mt-4 p-3 text-sm border animate-fadeIn ${
             isCorrect
-              ? "bg-emerald-900/20 border border-emerald-800 text-emerald-300"
-              : "bg-red-900/20 border border-red-800 text-red-300"
+              ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-300"
+              : "bg-red-500/5 border-red-500/20 text-red-300"
           }`}
         >
           {isCorrect ? (
-            <p>Correct! This problem uses <strong>{correctPattern}</strong>.</p>
+            <p>Correct. This problem uses <strong>{correctPattern}</strong>.</p>
           ) : (
             <p>
               Not quite. The best approach is <strong>{correctPattern}</strong>.

@@ -11,12 +11,12 @@ export default function HintAccordion({ hints }: HintAccordionProps) {
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-semibold text-gray-300">Hints</h3>
+      <h3 className="text-sm font-medium text-gray-400">Hints</h3>
       {hints.map((hint, i) => (
         <div key={i}>
           {i < revealedCount ? (
-            <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-3 text-sm text-gray-300">
-              <span className="text-indigo-400 font-medium">Hint {i + 1}:</span>{" "}
+            <div className="bg-white/[0.03] border border-white/[0.06] p-3 text-sm text-gray-300">
+              <span className="text-accent font-medium">Hint {i + 1}:</span>{" "}
               {hint}
             </div>
           ) : i === revealedCount ? (
@@ -27,7 +27,7 @@ export default function HintAccordion({ hints }: HintAccordionProps) {
               Reveal Hint {i + 1} of {hints.length}
             </button>
           ) : (
-            <div className="bg-gray-800/30 border border-gray-800 rounded-lg p-3 text-sm text-gray-600">
+            <div className="border border-white/[0.04] p-3 text-sm text-gray-700">
               Hint {i + 1} (locked)
             </div>
           )}
